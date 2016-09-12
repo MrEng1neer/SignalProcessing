@@ -9,6 +9,19 @@
 class SignalProcessing
 {
 public:
+	SignalProcessing(float cuttOffFrequency_LPF = 0., cuttOffFrequency_HPF = 0.)
+	{
+		//HIGH PASS FILTER init
+	    lastDataIn_HPF = 0.;
+	    lastTime_HPF = 0.;
+		LastDataFiltered_HPF = 0.;
+		tau_HPF = 159154.94309/cuttOffFrequency_HPF;
+		//LOW PASS FILTER init
+	    lastTime_LPF  = 0.;
+		lastDataIn_LPF = 0.;
+		tau_LPF = 159154.94309/cuttOffFrequency_LPF;
+	}//END
+	
 	SignalProcessing(void)
 	{
 		//HIGH PASS FILTER init
@@ -32,7 +45,22 @@ public:
 		lastTime_LPF = time;
 	};//END inline void LowPassFilter(float *data, float cuttOffFrequency)
 	
-  inline void HighPassFilter3D(float &data, float cuttOffFrequency)
+	
+	//Must be initialized by constructor
+	inline void LowPassFilter(float &data)
+	{
+		unsigned long time = micros(); //Stores actual time
+		//float tau = 159154.94309/cuttOffFrequency; //in microseconds 1/(2*Pi*Fc)		
+		float dt = float(time - lastTime_LPF);
+		//ALPHA = dt/(tau + dt);
+		float ALPHA = dt/(tau_LPF + dt);
+		data = ALPHA * data + lastDataIn_LPF * (1. - ALPHA);
+		lastDataIn_LPF = data;
+		lastTime_LPF = time;
+	};//END inline void LowPassFilter(float *data, float cuttOffFrequency)
+	
+	
+  inline void HighPassFilter(float &data, float cuttOffFrequency)
 	{
 		float tau = 159154.94309/(cuttOffFrequency); //em microsegundos 1/(2*Pi*Fc)
 		unsigned long time = micros();
@@ -45,6 +73,19 @@ public:
 		lastTime_HPF = time;
 	};//FIM inline void LowPassFilter(float *data, float cuttOffFrequency)
   
+  //Must be initialized by constructor
+   inline void HighPassFilter(float &data)
+	{
+		//float tau = 159154.94309/(cuttOffFrequency); //em microsegundos 1/(2*Pi*Fc)
+		unsigned long time = micros();
+		
+		float dt = time - lastTime_HPF;
+		float ALPHA = tau_HPF/(tau_HPF + dt);
+		data = ALPHA * (LastDataFiltered_HPF + data - lastDataIn_HPF;
+		lastDataIn_HPF = data;
+		LastDataFiltered_HPF = data;
+		lastTime_HPF = time;
+	};//FIM inline void LowPassFilter(float *data, float cuttOffFrequency)
   
   //generates a sine -like signal , which may be composed of several sine waves.
   //Receive vectors as pointers amplitude , phase and frequency
@@ -75,12 +116,15 @@ public:
   //setCutOffFrequency()
   
 private:
-
+	
 	//HIGH PASS FILTER
 	float lastDataIn_HPF;
 	unsigned long lastTime_HPF;
 	float LastDataFiltered_HPF;
+	float tau_HPF;
 	//LOW PASS FILTER
+	float tau_LPF;
 	unsigned long lastTime_LPF;       
 	float lastDataIn_LPF;
-}//End class
+	
+}//End class SignalProcessing
