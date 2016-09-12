@@ -67,7 +67,7 @@ public:
 		
 		float dt = time - lastTime_HPF;
 		float ALPHA = tau/(tau + dt);
-		data = ALPHA * (LastDataFiltered_HPF + data - lastDataIn_HPF;
+		data = ALPHA * (LastDataFiltered_HPF + data - lastDataIn_HPF);
 		lastDataIn_HPF = data;
 		LastDataFiltered_HPF = data;
 		lastTime_HPF = time;
