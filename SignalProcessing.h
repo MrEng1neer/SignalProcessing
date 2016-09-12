@@ -8,7 +8,6 @@
 
 class SignalProcessing
 {
-
 public:
 	SignalProcessing(void)
 	{
@@ -17,7 +16,7 @@ public:
 	    lastTime_HPF = 0.;
 		LastDataFiltered_HPF = 0.;
 		//LOW PASS FILTER init
-	    lastTime_LPF  = 0.;       
+	    lastTime_LPF  = 0.;
 		lastDataIn_LPF = 0.;
 	}//END
 
@@ -46,6 +45,10 @@ public:
 		lastTime_HPF = time;
 	};//FIM inline void LowPassFilter(float *data, float cuttOffFrequency)
   
+  
+  //generates a sine -like signal , which may be composed of several sine waves.
+  //Receive vectors as pointers amplitude , phase and frequency
+  //static method , best for use at any time , but is not required to be static
   inline static float GenerateSineSignal(unsigned int numberOfwaves, float *amplitude, float *fase, float *frequency){}
 	{
 		float outSignal = 0.;
@@ -59,7 +62,8 @@ public:
 		return outSignal;
 	};//END
   
-  //Generate a random number in this range and divids for return float point
+	//Generate a Random Number in this range and divides to return floating point value
+  //static method , best for use at any time , but is not required to be static
   static float noise(int minValue = -200, int maxValue = 200, float divisor = 100)
 	{
 		float noiseFloat;
@@ -68,7 +72,7 @@ public:
 	};//END float noise(int minValue = -200, int maxValue = 200, float divisor = 100)
   
   //Comming soon
-  //setCulOffFrequency()
+  //setCutOffFrequency()
   
 private:
 
