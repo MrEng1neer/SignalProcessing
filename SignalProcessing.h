@@ -1,3 +1,9 @@
+/************************
+* Under development
+* Be carefull
+* MrEng1neer@ 09.2016
+* Version 0.1
+*************************/
 #include <Arduino.h>
 
 class SignalProcessing
