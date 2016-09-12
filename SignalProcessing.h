@@ -9,7 +9,7 @@
 class SignalProcessing
 {
 public:
-	SignalProcessing(float cuttOffFrequency_LPF = 0., cuttOffFrequency_HPF = 0.)
+	SignalProcessing(float cuttOffFrequency_LPF, float cuttOffFrequency_HPF)
 	{
 		//HIGH PASS FILTER init
 	    lastDataIn_HPF = 0.;
@@ -81,7 +81,7 @@ public:
 		
 		float dt = time - lastTime_HPF;
 		float ALPHA = tau_HPF/(tau_HPF + dt);
-		data = ALPHA * (LastDataFiltered_HPF + data - lastDataIn_HPF;
+		data = ALPHA * (LastDataFiltered_HPF + data - lastDataIn_HPF);
 		lastDataIn_HPF = data;
 		LastDataFiltered_HPF = data;
 		lastTime_HPF = time;
@@ -90,14 +90,14 @@ public:
   //generates a sine -like signal , which may be composed of several sine waves.
   //Receive vectors as pointers amplitude , phase and frequency
   //static method , best for use at any time , but is not required to be static
-  inline static float GenerateSineSignal(unsigned int numberOfwaves, float *amplitude, float *fase, float *frequency){}
+  inline static float GenerateSineSignal(unsigned int numberOfwaves, float *amplitude, float *fase, float *frequency)
 	{
 		float outSignal = 0.;
 		unsigned long time = micros();
 		
-		for(register int i = 0; i<numFreq; i++)
+		for(register unsigned int i = 0; i<numberOfwaves; i++)
 		{
-			outSignal = outSignal + amplitude[i] * sin(DOUBLEPI * frequency[i] * float(time/1e6) + fase[i]);
+			outSignal = outSignal + amplitude[i] * sin(TWO_PI * frequency[i] * float(time/1e6) + fase[i]);
 		};//FIM for
 		//Serial.println(1000*float(time/1e6)); //Check output (Optional for DEBUG)
 		return outSignal;
@@ -127,4 +127,4 @@ private:
 	unsigned long lastTime_LPF;       
 	float lastDataIn_LPF;
 	
-}//End class SignalProcessing
+};//End class SignalProcessing
