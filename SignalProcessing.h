@@ -10,16 +10,16 @@ class SignalProcessing
 {
 
 public:
-  SignalProcessing(void)
-  {
-    //HIGH PASS FILTER init
-    lastDataIn_HPF = 0.;
-  	lastTime_HPF = 0.;
-	  LastDataFiltered_HPF = 0.;
-	  //LOW PASS FILTER init
-    lastTime_LPF  = 0.;       
-	  lastDataIn_LPF = 0.;
-  }//END
+	SignalProcessing(void)
+	{
+		//HIGH PASS FILTER init
+	    lastDataIn_HPF = 0.;
+	    lastTime_HPF = 0.;
+		LastDataFiltered_HPF = 0.;
+		//LOW PASS FILTER init
+	    lastTime_LPF  = 0.;       
+		lastDataIn_LPF = 0.;
+	}//END
 
   inline void LowPassFilter(float &data, float cuttOffFrequency)
 	{
