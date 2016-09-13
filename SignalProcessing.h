@@ -12,12 +12,12 @@ public:
 	SignalProcessing(float cuttOffFrequency_LPF, float cuttOffFrequency_HPF)
 	{
 		//HIGH PASS FILTER init
-	    lastDataIn_HPF = 0.;
-	    lastTime_HPF = 0.;
+		lastDataIn_HPF = 0.;
+		lastTime_HPF = 0.;
 		LastDataFiltered_HPF = 0.;
 		tau_HPF = 159154.94309/cuttOffFrequency_HPF;
 		//LOW PASS FILTER init
-	    lastTime_LPF  = 0.;
+		lastTime_LPF  = 0.;
 		lastDataIn_LPF = 0.;
 		tau_LPF = 159154.94309/cuttOffFrequency_LPF;
 	}//END
@@ -116,7 +116,7 @@ public:
   //setCutOffFrequency()
   
 private:
-	 
+	
 	//HIGH PASS FILTER
 	float lastDataIn_HPF;
 	unsigned long lastTime_HPF;
