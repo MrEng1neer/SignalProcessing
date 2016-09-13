@@ -116,7 +116,7 @@ public:
   //setCutOffFrequency()
   
 private:
-	
+	 
 	//HIGH PASS FILTER
 	float lastDataIn_HPF;
 	unsigned long lastTime_HPF;
