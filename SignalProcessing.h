@@ -60,9 +60,9 @@ public:
 	};//END inline void LowPassFilter(float *data, float cuttOffFrequency)
 	
 	
-  inline void HighPassFilter(float &data, float cuttOffFrequency)
+  inline void HighPassFilter(float &data, float cutOffFrequency)
 	{
-		float tau = 159154.94309/(cuttOffFrequency); //em microsegundos 1/(2*Pi*Fc)
+		float tau = 159154.94309/(cutOffFrequency); //em microsegundos 1/(2*Pi*Fc)
 		unsigned long time = micros();
 		
 		float dt = time - lastTime_HPF;
@@ -71,12 +71,12 @@ public:
 		lastDataIn_HPF = data;
 		LastDataFiltered_HPF = data;
 		lastTime_HPF = time;
-	};//FIM inline void LowPassFilter(float *data, float cuttOffFrequency)
+	};//FIM inline void LowPassFilter(float *data, float cutOffFrequency)
   
-  //Must be initialized by constructor
-   inline void HighPassFilter(float &data)
+	//Must be initialized by constructor
+	inline void HighPassFilter(float &data)
 	{
-		//float tau = 159154.94309/(cuttOffFrequency); //em microsegundos 1/(2*Pi*Fc)
+		//float tau = 159154.94309/(cutOffFrequency); //em microsegundos 1/(2*Pi*Fc)
 		unsigned long time = micros();
 		
 		float dt = time - lastTime_HPF;
@@ -86,13 +86,17 @@ public:
 		LastDataFiltered_HPF = data;
 		lastTime_HPF = time;
 	};//FIM inline void LowPassFilter(float *data, float cuttOffFrequency)
+	
+	//comming soon
+	inline void BandPassFilter(float &data, float cutOffFrequency){}
+	
   
-  //generates a sine -like signal , which may be composed of several sine waves.
-  //Receive vectors as pointers amplitude , phase and frequency
-  //static method , best for use at any time , but is not required to be static
-  inline static float GenerateSineSignal(unsigned int numberOfwaves, float *amplitude, float *fase, float *frequency)
+	//generates a sine -like signal , which may be composed of several sine waves.
+	//Receive vectors as pointers amplitude , phase and frequency
+	//static method , best for use at any time , but is not required to be static
+	inline static float GenerateSineSignal(unsigned int numberOfwaves, float *amplitude, float *fase, float *frequency)
 	{
-		float outSignal = 0.;
+	  	float outSignal = 0.;
 		unsigned long time = micros();
 		
 		for(register unsigned int i = 0; i<numberOfwaves; i++)
@@ -102,21 +106,20 @@ public:
 		//Serial.println(1000*float(time/1e6)); //Check output (Optional for DEBUG)
 		return outSignal;
 	};//END
-  
+	
 	//Generate a Random Number in this range and divides to return floating point value
-  //static method , best for use at any time , but is not required to be static
-  static float noise(int minValue = -200, int maxValue = 200, float divisor = 100)
+	//static method , best for use at any time , but is not required to be static
+	static float noise(int minValue = -200, int maxValue = 200, float divisor = 100)
 	{
 		float noiseFloat;
 		noiseFloat = float((random()%(1 + 2*maxValue)) + minValue)/divisor;
 		return noiseFloat;
 	};//END float noise(int minValue = -200, int maxValue = 200, float divisor = 100)
-  
-  //Comming soon
-  //setCutOffFrequency()
+	
+	  //Comming soon?
+	  //setCutOffFrequency()
   
 private:
-	
 	//HIGH PASS FILTER
 	float lastDataIn_HPF;
 	unsigned long lastTime_HPF;
